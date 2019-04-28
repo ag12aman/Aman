@@ -1,0 +1,16 @@
+set_io clk R9
+set_io X[0] A11
+set_io X[1] A10
+set_io X[2] A9
+set_io X[3] B8
+set_io Y[0] B5
+set_io Y[1] B3
+set_io Y[2] B6
+set_io Y[3] B7 
+set_io Z C3
+set_io S[0] B11
+set_io S[1] B10
+set_io S[2] B9
+set_io S[3] D8
+set_io V[0] B4
+set_io V[1] A5

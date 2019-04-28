@@ -1,0 +1,115 @@
+module calci(clk,X, Y, S, V,Z);
+ input clk;
+ input [3:0] X, Y;// Two 4-bit inputs
+ input  Z;
+ output [3:0] S;
+ output [1:0] V;
+ reg [28:0] delay;
+ wire w1, w2, w3, w4, w5,w6,w7,w8,w9,b7,b2,b3,b0,b5,b6,b8,b9;
+ reg D1,D2,D3,D0,C1,c1,c2,c3,c4,c5,A0,A1,A2,A3,h0,h1,h2,h3;
+ 
+ always@ (posedge clk)
+ begin
+  delay=delay+1;
+  if(delay==29'b10110010001111001111100000000) //about 4 seconds delay
+  begin
+   delay=29'b0;
+   if(Z==1'b0) 
+     begin
+  
+ 
+     S[0]= X[0]^Y[0];
+     b5 = X[0]&Y[0];
+
+     w1 =  X[1]^Y[1];
+     S[1] = w1^b5;
+     w2 = w1&b5;
+     w3 = X[1]&Y[1];
+     b6 = w2|w3;
+
+     w4= X[2]^Y[2];
+     S[2] = w4^b6;
+     w5 = w4&b6;
+     w6 =  X[2]&Y[2];
+     b2= w5|w6;
+
+     w7= X[3]^Y[3];
+     S[3]= w7^b2;
+     w8= w7& b2;
+     w9 = X[3]&Y[3];
+     V[0] = w8|w9;
+     V[1] = 1'b0;
+  
+ 
+     end
+
+  else if(Z==1'b1 )
+   begin
+
+   h0= ~Y[0];
+   b0=X[0]^h0;
+   b9=1'b1;
+   A0=b9^b0;
+   b5=X[0]&h0;
+   b6=b9&b0; 
+   b7=b5|b6;
+ 
+   h1= ~Y[1];
+   w1= X[1]^h1;
+   A1= w1^b7;
+   w2= w1&b7;
+   w3= X[1]&h1;
+   b2= w2|w3;
+
+   h2= ~Y[2];
+   w4= X[2]^h2;
+   A2= w4^b2;
+   w5= w4&b2;
+   w6= X[2]&h2;
+   b3= w5|w6;
+
+   h3= ~Y[3];
+   w7= X[3]^h3;
+   A3= w7^b3;
+   w8= w7&b3;
+   w9= X[3]&h3;
+   b8= w8|w9;
+
+    if(b8==1'b0)
+     begin
+   
+     D0 = ~A0;
+     D1 = ~A1;
+     D2 = ~A2;
+     D3 = ~A3;
+     S[0] = b9^D0;
+     c1 = b9&D0;
+     S[1] = c1^D1;
+     c2 = c1&D1;
+     S[2] = c2^D2;
+     c3 = c2&D2;
+     S[3]= c3^D3;
+     C1 = c3&D3;
+     c4 = ~C1;
+     V[0] = ~b8;
+     V[1] = ~b8;
+     
+     end
+   
+    else if(b8==1'b1) 
+     begin
+     S[0] = A0;
+     S[1] = A1;
+     S[2] = A2;
+     S[3] = A3;
+     c5 = ~b8;
+     V[0] = c5;
+     V[1] = c5;
+     
+     end
+  end
+
+ end
+ end
+endmodule
+
